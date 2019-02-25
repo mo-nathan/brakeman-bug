@@ -2,23 +2,26 @@
 
 This repo demonstrates a problem with brakeman 4.4.0.  To see the issue
 run:
-
-  bundle install
-  brakeman .
+```
+bundle install
+brakeman .
+```
 
 It should report:
-  ...
-  == Warnings ==
-  
-  Confidence: High
-  Category: Command Injection
-  Check: Execute
-  Message: Possible command injection
-  Code: Open3.capture2e("ls", Shellwords.escape(A.new.z))
-  File: app/controllers/a_controller.rb
-  Line: 9
+```
+...
+== Warnings ==
 
-The key files are app/controllers/a_controller.rb and app/models/a.rb.
+Confidence: High
+Category: Command Injection
+Check: Execute
+Message: Possible command injection
+Code: Open3.capture2e("ls", Shellwords.escape(A.new.z))
+File: app/controllers/a_controller.rb
+Line: 9
+```
+
+The key files are `app/controllers/a_controller.rb` and `app/models/a.rb`.
 Note that AController contains a class, B, that is identical to the
 class A, but does not trigger the same warning.
 
