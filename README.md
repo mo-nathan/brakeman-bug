@@ -1,24 +1,29 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This repo demonstrates a problem with brakeman 4.4.0.  To see the issue
+run:
 
-Things you may want to cover:
+  bundle install
+  brakeman .
 
-* Ruby version
+It should report:
+  ...
+  == Warnings ==
+  
+  Confidence: High
+  Category: Command Injection
+  Check: Execute
+  Message: Possible command injection
+  Code: Open3.capture2e("ls", Shellwords.escape(A.new.z))
+  File: app/controllers/a_controller.rb
+  Line: 9
 
-* System dependencies
+The key files are app/controllers/a_controller.rb and app/models/a.rb.
+Note that AController contains a class, B, that is identical to the
+class A, but does not trigger the same warning.
 
-* Configuration
+I have also noticed that if the class AController is renamed just AC,
+the warning also goes away.
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+This issue is also seen using Ruby 2.4.1 (which is the verison of Ruby
+I have setup by default).
